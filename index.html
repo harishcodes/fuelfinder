@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>FuelFinder</title>
+        <link rel="stylesheet" href="./bootstrap.min.css">
+        <link rel="stylesheet" href="./FuelFinder-Page/styles/style.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.5/bluebird.min.js"></script>               
+    </head>
+    
+    <body class='MessageMaint-Page-body' >
+        <div>
+            <Navbar fixedTop fluid>
+                <Navbar.Header>
+                    <Navbar.Brand>
+                        <Link to='/'>                       
+                            Fuel Finder
+                        </Link>
+                    </Navbar.Brand>
+                </Navbar.Header>
+                <Navbar.Collapse>
+                    <Nav>
+                        <NavItem eventKey={1} href="#">Home</NavItem>
+                        
+                    </Nav>
+                </Navbar.Collapse>            
+            </Navbar>
+        </div>
+        <hr/>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYRprc24I0FALe8yxRR0Ie3drha3ATmAU"></script>         
+        <div id="app"></div>        
+        <script src="index.js"></script>
+    </body>
+</html>
+

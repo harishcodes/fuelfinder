@@ -1,0 +1,39 @@
+{
+  "name": "reactjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --define process.env.NODE_ENV='\"local\"' --inline --content-base .",
+    "start1": "webpack-dev-server --define process.env.NODE_ENV='\"prod\"' --inline --content-base .",
+    "clean": "[ -d dist ] && trash dist || true",
+    "buildprod": "NODE_ENV=production webpack -p --config ./webpack.production.config.js",
+    "build-production": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors",
+    "build-dev": "webpack --define process.env.NODE_ENV='\"dev\"' --config ./webpack.config.js",
+    "build-trial": "webpack --define process.env.NODE_ENV='\"trial\"' --config ./webpack.config.js",
+    "build-prod": "webpack --define process.env.NODE_ENV='\"prod\"' --config ./webpack.config.js",
+    "build-local": "webpack --define process.env.NODE_ENV='\"local\"' --config ./webpack.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-core": "^6.7.6",
+    "babel-loader": "^6.2.4",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-stage-2": "^6.18.0",
+    "es6-promise": "^2.0.1",
+    "google-maps": "^3.2.1",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-google-maps": "^7.2.0",
+    "react-redux": "^4.4.6",
+    "react-router": "^3.0.0",
+    "redux": "^3.6.0",
+    "webpack": "^2.4.1",
+    "webpack-dev-server": "^2.4.5"
+  },
+  "devDependencies": {
+    "css-loader": "^0.26.0",
+    "style-loader": "^0.13.1"
+  }
+}

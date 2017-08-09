@@ -1,0 +1,109 @@
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css");
+.navbar-default {
+    background-color: #151719;
+    border-color: #282828;
+}
+
+.navbar-default .navbar-brand {
+    color: #fff;
+}
+
+.navbar-default .navbar-brand:hover {
+    color: #fff;
+}
+.navbar-default .navbar-nav>li>a {
+    color: #fff;
+}
+
+.dropdown-menu  {
+    background-color: #151719;
+    color:#fff;
+    border-color: #ccc;
+}
+
+
+.dropdown-menu>li {
+    border-color: #fff;
+}
+
+.dropdown-menu>li>a {
+    color:#fff;    
+}
+
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.MessageMaint-Page-body {
+    background: url(/FuelFinder/images/background.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+ul.nav a:hover { 
+    background-color: #f85d13 !important; 
+    color: #fff;     
+}
+nav>li>a:hover {
+    color: #fff;    
+}
+.panel-default>.panel-heading {
+    color: #fff;
+    background-color: black;
+}
+
+.PanelStyle{
+    padding: 5px;
+    background-color: black;
+}
+.TabStyle{    
+    background-color: black;
+}
+.WellStyle{
+    background-color: black;
+    color:#fff;
+}
+.TabContentStyle{
+    padding:10px;
+    background-color:black;
+}
+.TableStyle>thead>tr>th{
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+}
+.TableStyle>tbody>tr{
+    background-color: black;
+    color: #fff;
+    font-size: 15px;
+    text-align:center;
+    vertical-align: middle;    
+}
+.blink_me {
+  animation: blinker 0.5s linear 4;
+}
+
+@keyframes blinker {  
+  50% { opacity: 0;background-color:white; }
+}
+
+
+/*StartUp Page Styling */
+.panel-default>.panel-heading{
+        background-color: black;
+    font-weight: bold;
+    text-align: center;
+}
+.element::-webkit-input-placeholder {
+    color: blue;
+    font-weight: bold;
+}
+.clickButtonStyle{
+    text-align: center;
+}
+
+.rowStyle{
+    margin-bottom: 10px;
+}
