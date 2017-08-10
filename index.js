@@ -21479,7 +21479,8 @@
 	        fetched: state.Fuelreducer.fetched,
 	        markerClicked: state.Fuelreducer.markerClicked,
 	        lat: state.Fuelreducer.lat,
-	        lng: state.Fuelreducer.lng
+	        lng: state.Fuelreducer.lng,
+	        firstLoad: state.Fuelreducer.firstLoad
 	    };
 	};
 
@@ -21492,6 +21493,10 @@
 	        handleMarkerClick: function handleMarkerClick() {
 	            console.log("markclick");
 	            dispatch((0, _actions.handleMarkerClick)());
+	        },
+	        currentLocFuel: function currentLocFuel(lat, lng) {
+	            console.log("currentloc");
+	            dispatch((0, _actions.fetchFuelDetailsWithLatLng)(lat, lng));
 	        }
 	    };
 	};
@@ -23270,7 +23275,7 @@
 	                    longitude: lng
 	                };
 
-	                return fetch("http://api.mygasfeed.com/stations/radius/" + lat + "/" + lng + "/5/reg/distance/5pf2pf32o3.json").then(function (resp) {
+	                return fetch("//api.mygasfeed.com/stations/radius/" + lat + "/" + lng + "/5/reg/distance/5pf2pf32o3.json").then(function (resp) {
 	                    console.log("resp", resp);
 	                    return resp.json();
 	                }).then(function (json) {
@@ -23286,6 +23291,21 @@
 	    };
 	};
 
+	var fetchFuelDetailsWithLatLng = exports.fetchFuelDetailsWithLatLng = function fetchFuelDetailsWithLatLng(lat, lng) {
+
+	    return function (dispatch) {
+	        dispatch({ type: "FETCHING_FUEL_DATA", payload: '' });
+	        return fetch("//api.mygasfeed.com/stations/radius/" + lat + "/" + lng + "/5/reg/distance/5pf2pf32o3.json").then(function (resp) {
+	            console.log("resp", resp);
+	            return resp.json();
+	        }).then(function (json) {
+	            dispatch(returnGeoInfo(json, lat, lng));
+	        }).catch(function (err) {
+	            console.log("err", err);
+	            dispatch({ type: "FETCH_MESSAGE_ERROR", error: err });
+	        });
+	    };
+	};
 	function handleMarkerClick() {
 	    return function (dispatch) {
 	        dispatch({ type: "MARKER_CLICKED", payload: '' });
@@ -23347,6 +23367,14 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var geolocation =
+	//canUseDOM && navigator.geolocation ?
+	navigator.geolocation ? navigator.geolocation : {
+	    getCurrentPosition: function getCurrentPosition(success, failure) {
+	        failure('Your browser doesn\'t support geolocation.');
+	    }
+	};
+
 	var AddressPage = function (_React$Component) {
 	    _inherits(AddressPage, _React$Component);
 
@@ -23355,11 +23383,21 @@
 
 	        var _this = _possibleConstructorReturn(this, (AddressPage.__proto__ || Object.getPrototypeOf(AddressPage)).call(this));
 
+	        var lat;
+	        var lng;
+	        geolocation.getCurrentPosition(function (position) {
+	            if (_this.isUnmounted) {
+	                return;
+	            }
+	            lat = parseFloat(position.coords.latitude);
+	            lng = parseFloat(position.coords.longitude);
+	        });
+	        console.log(lat, lng);
 	        _this.state = {
 	            markers: [{
 	                position: {
-	                    lat: 40.7575285,
-	                    lng: -73.9884469
+	                    lat: lat,
+	                    lng: lng
 	                },
 	                defaultAnimation: 2,
 	                infoContent: _react2.default.createElement(
@@ -23373,12 +23411,23 @@
 	                    ),
 	                    ' '
 	                ),
+	                priceContent: _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    ' ',
+	                    _react2.default.createElement(
+	                        'h3',
+	                        null,
+	                        ' NA '
+	                    ),
+	                    ' '
+	                ),
 	                price: "",
 	                showInfo: false
 	            }],
 	            location: {
-	                lat: 40.7575285,
-	                lng: -73.9884469
+	                lat: lat,
+	                lng: lng
 	            }
 	        };
 
@@ -23386,6 +23435,17 @@
 	    }
 
 	    _createClass(AddressPage, [{
+	        key: 'executeCurrentLoc',
+	        value: function executeCurrentLoc() {
+	            var _props = this.props,
+	                dispatch = _props.dispatch,
+	                currentLocFuel = _props.currentLocFuel;
+
+
+	            console.log("hellllloooo", this.state.location.lat, this.state.location.lng);
+	            currentLocFuel(this.state.location.lat, this.state.location.lng);
+	        }
+	    }, {
 	        key: 'handleSubmit',
 	        value: function handleSubmit() {
 	            var fetchFuelDetails = this.props.fetchFuelDetails;
@@ -23398,36 +23458,86 @@
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
+	            var _this2 = this;
+
 	            console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+	            geolocation.getCurrentPosition(function (position) {
+	                if (_this2.isUnmounted) {
+	                    return;
+	                }
+	                console.log("lat", position.coords.latitude);
+	                _this2.setState({
+	                    markers: [{
+	                        position: {
+	                            lat: parseFloat(position.coords.latitude),
+	                            lng: parseFloat(position.coords.longitude)
+	                        },
+	                        defaultAnimation: 2,
+	                        infoContent: null,
+	                        priceContent: null,
+	                        price: "",
+	                        showInfo: false
+	                    }],
+	                    location: {
+	                        lat: parseFloat(position.coords.latitude),
+	                        lng: parseFloat(position.coords.longitude)
+	                    }
+	                });
+	            });
 	        }
 	    }, {
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {
 	            console.log("d");
-	            this.state.markers = [{
-	                position: {
-	                    lat: 40.7575285,
-	                    lng: -73.9884469
-	                },
-	                defaultAnimation: 2,
-	                infoContent: _react2.default.createElement(
-	                    'div',
-	                    null,
-	                    ' ',
-	                    _react2.default.createElement(
-	                        'h3',
-	                        null,
-	                        ' Hello '
-	                    ),
-	                    ' '
-	                ),
-	                price: "",
-	                showInfo: false
-	            }];
+	            /*this.state.markers = [
+	                    {
+	                        position:{
+	                            lat: 40.7575285,
+	                            lng: -73.9884469
+	                        },
+	                        defaultAnimation: 2,
+	                        infoContent: (
+	                            <div> <h3> Hello </h3> </div>
+	                        ),
+	                        priceContent: (
+	                            <div> <h3> NA </h3> </div>
+	                        ),
+	                        price:"",
+	                        showInfo:false
+	                    }
+	                ]
 	            this.state.location = {
-	                lat: 40.7575285,
-	                lng: -73.9884469
-	            };
+	                    lat:40.7575285,
+	                    lng:-73.9884469
+	                }*/
+
+	            /*geolocation.getCurrentPosition((position) => {
+	            if (this.isUnmounted) {
+	            return
+	            }
+	            console.log("lat",position.coords.latitude)
+	            this.setState({
+	                    markers:
+	                    [{
+	                        position:{
+	                            lat: parseFloat(position.coords.latitude),
+	                            lng: parseFloat(position.coords.longitude)
+	                        },
+	                        defaultAnimation: 2,
+	                        infoContent: null,
+	                        priceContent: null,
+	                        price:"",
+	                        showInfo:false
+	                    }],
+	                    location: {
+	                       lat: parseFloat(position.coords.latitude),
+	                        lng: parseFloat(position.coords.longitude)
+	                    }
+	            })
+
+	            })
+	            */
+
 	            console.log("fff", this.state.markers);
 	        }
 	    }, {
@@ -23493,13 +23603,24 @@
 	            var tempMarkers = [];
 	            var location;
 	            var renderComponent = '';
+	            var priceContentStyle = {
+	                color: 'white',
+	                fontWeight: 'bold',
+	                backgroundColor: 'green',
+	                fontSize: '9px'
+	            };
+	            var buttonDivStyle = {
+	                textAlign: 'center',
+	                paddingBottom: '10px'
+	            };
 
 	            console.log("fuelStationDet", this.props.fuelStationDet);
-	            var _props = this.props,
-	                fuelStationDet = _props.fuelStationDet,
-	                fetched = _props.fetched,
-	                fetching = _props.fetching,
-	                markerClicked = _props.markerClicked;
+	            var _props2 = this.props,
+	                fuelStationDet = _props2.fuelStationDet,
+	                fetched = _props2.fetched,
+	                fetching = _props2.fetching,
+	                markerClicked = _props2.markerClicked,
+	                firstLoad = _props2.firstLoad;
 
 	            console.log("fetched", fetched);
 	            console.log("fetching", fetching);
@@ -23538,6 +23659,19 @@
 	                                station.reg_price
 	                            )
 	                        ),
+	                        priceContent: _react2.default.createElement(
+	                            'div',
+	                            { style: priceContentStyle },
+	                            ' ',
+	                            _react2.default.createElement(
+	                                'strong',
+	                                null,
+	                                ' ',
+	                                station.reg_price,
+	                                ' '
+	                            ),
+	                            ' '
+	                        ),
 	                        price: station.reg_price,
 	                        showInfo: false
 	                    });
@@ -23572,7 +23706,7 @@
 	                    ' '
 	                );
 	            }
-
+	            console.log("fir", firstLoad);
 	            if (markerClicked) {
 	                renderComponent = _react2.default.createElement(
 	                    'div',
@@ -23581,7 +23715,8 @@
 	                        location: this.state.location,
 	                        markers: this.state.markers,
 	                        handleMarkerClick: this.handleMarkerClick.bind(this),
-	                        handleMarkerClose: this.handleMarkerClose.bind(this)
+	                        handleMarkerClose: this.handleMarkerClose.bind(this),
+	                        firstLoad: firstLoad
 	                    })
 	                );
 	            }
@@ -23606,9 +23741,23 @@
 	                                required: true })
 	                        ),
 	                        _react2.default.createElement(
-	                            _reactBootstrap.Button,
-	                            { type: 'submit', bsStyle: 'success' },
-	                            'Submit'
+	                            'div',
+	                            { style: buttonDivStyle },
+	                            _react2.default.createElement(
+	                                _reactBootstrap.ButtonToolbar,
+	                                null,
+	                                _react2.default.createElement(
+	                                    _reactBootstrap.Button,
+	                                    { type: 'submit', bsStyle: 'success', bsSize: 'small' },
+	                                    'Submit'
+	                                ),
+	                                _react2.default.createElement(
+	                                    _reactBootstrap.Button,
+	                                    { type: 'button', bsStyle: 'success', bsSize: 'small', onClick: this.executeCurrentLoc.bind(this) },
+	                                    _react2.default.createElement('i', { className: 'fa fa-location-arrow', 'aria-hidden': 'true' }),
+	                                    ' Use My Location'
+	                                )
+	                            )
 	                        )
 	                    )
 	                ),
@@ -24059,6 +24208,16 @@
 	    color: 'blue',
 	    fontWeight: 'bold'
 	};
+	var markerIcon = {
+	    url: 'http://image.flaticon.com/icons/svg/252/252025.svg',
+	    //url: '../images/gasoline.png',
+	    scaledSize: new google.maps.Size(75, 75),
+	    origin: new google.maps.Point(0, 0),
+	    anchor: new google.maps.Point(32, 65),
+	    labelOrigin: new google.maps.Point(36, 30)
+	};
+
+	var iconimage = "../images/gas_station.png";
 	var iconurl = 'https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png';
 	var GettingStartedGoogleMap = (0, _reactGoogleMaps.withGoogleMap)(function (props) {
 	    return _react2.default.createElement(
@@ -24068,14 +24227,20 @@
 	            defaultCenter: props.center,
 	            options: { streetViewControl: true, mapTypeControl: true } },
 	        props.markers.map(function (venue, i) {
-
+	            var labeldet = {
+	                text: '$' + venue.price,
+	                color: "dark green",
+	                fontSize: "11px",
+	                fontWeight: "bold"
+	            };
 	            return _react2.default.createElement(
 	                _reactGoogleMaps.Marker,
 	                _extends({
 	                    key: i
 	                }, venue, {
-	                    //icon={icon}
-	                    label: venue.price,
+	                    icon: markerIcon
+	                    //label= {venue.price}
+	                    , label: labeldet,
 	                    onClick: function onClick() {
 	                        return props.onMarkerClick(venue);
 	                    },
@@ -24117,8 +24282,10 @@
 	                height: '100%',
 	                width: '100%'
 	            };
+	            var mapContent;
 	            console.log(this.props.markers);
 	            console.log(this.props.location);
+	            console.log("firstload", this.props.firstLoad);
 
 	            var mapContainer = _react2.default.createElement('div', { style: mapStyle });
 	            var mapElement = _react2.default.createElement('div', { style: mapStyle });
@@ -59999,7 +60166,8 @@
 	    fetched: false,
 	    markerClicked: false,
 	    lat: '',
-	    lng: ''
+	    lng: '',
+	    firstLoad: true
 	};
 	function Fuelreducer() {
 	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { INITIAL_STATE: INITIAL_STATE };
@@ -60011,20 +60179,20 @@
 	            {
 	                console.log("ddddd", action.payload);
 	                return _extends({}, state, { fuelStationDet: action.payload.fuelDet,
-	                    lat: action.payload.lat, lng: action.payload.lng, fetching: false, fetched: true, markerClicked: false });
+	                    lat: action.payload.lat, lng: action.payload.lng, fetching: false, fetched: true, markerClicked: false, firstLoad: true });
 	            }
 	        case "FETCH_MESSAGE_ERROR":
 	            {
 	                console.log("errrrrr", action.payload);
-	                return _extends({}, state, { fuelStationDet: null, fetching: false, fetched: false, markerClicked: false });
+	                return _extends({}, state, { fuelStationDet: null, fetching: false, fetched: false, markerClicked: false, firstLoad: true });
 	            }
 	        case "FETCHING_FUEL_DATA":
 	            {
-	                return _extends({}, state, { fuelStationDet: null, fetching: true, fetched: false, markerClicked: false });
+	                return _extends({}, state, { fuelStationDet: null, fetching: true, fetched: false, markerClicked: false, firstLoad: true });
 	            }
 	        case "MARKER_CLICKED":
 	            {
-	                return _extends({}, state, { fetching: false, fetched: false, markerClicked: true });
+	                return _extends({}, state, { fetching: false, fetched: false, markerClicked: true, firstLoad: true });
 	            }
 	        default:
 	            {
