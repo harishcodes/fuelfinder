@@ -3,34 +3,66 @@ import styles from '../styles/style.css'
 import stylesSpinner1 from '../styles/cssspinner.css'
 import ReactDOM from 'react-dom'
 import Map from './Map.js'
-import {FormGroup,ControlLabel,FormControl,Panel,Glyphicon,Button,Well,Col,Row,Popover,Form} from 'react-bootstrap'
+import {FormGroup,ControlLabel,FormControl,Panel,Glyphicon,Button,Well,Col,Row,Popover,Form,ButtonToolbar} from 'react-bootstrap'
+
+const geolocation = (
+  //canUseDOM && navigator.geolocation ?
+    navigator.geolocation ?
+  navigator.geolocation : 
+  ({
+    getCurrentPosition(success, failure) {
+      failure(`Your browser doesn't support geolocation.`);
+    },
+  })
+)
+
 
 export default class AddressPage extends React.Component{
     constructor(){
         super()
+        var lat
+        var lng
+        geolocation.getCurrentPosition((position) => {
+              if (this.isUnmounted) {
+                return
+              }
+              lat=parseFloat(position.coords.latitude)
+              lng=parseFloat(position.coords.longitude)
+        })
+        console.log(lat,lng)
         this.state={
             markers : [
                 {
                     position:{
-                        lat: 40.7575285,
-                        lng: -73.9884469
+                        lat: lat,
+                        lng: lng
                     },
                     defaultAnimation: 2,
                     infoContent: (
                         <div> <h3> Hello </h3> </div>
+                    ),
+                    priceContent: (
+                        <div> <h3> NA </h3> </div>
                     ),
                     price:"",
                     showInfo:false
                 }
             ],
             location: {
-                lat:40.7575285,
-                lng:-73.9884469
+                lat:lat,
+                lng:lng
             }
         }
 
     }
+
     
+    executeCurrentLoc(){
+        const {dispatch,currentLocFuel} = this.props
+        
+        console.log("hellllloooo",this.state.location.lat,this.state.location.lng)
+        currentLocFuel(this.state.location.lat,this.state.location.lng)
+    }
     
     
     handleSubmit() {
@@ -43,12 +75,37 @@ export default class AddressPage extends React.Component{
     }
     
     componentDidMount(){
-        console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+        console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDD")       
+        geolocation.getCurrentPosition((position) => {
+      if (this.isUnmounted) {
+        return
+      }
+    console.log("lat",position.coords.latitude)
+        this.setState({ 
+                markers:
+                [{
+                    position:{
+                        lat: parseFloat(position.coords.latitude),
+                        lng: parseFloat(position.coords.longitude)
+                    },
+                    defaultAnimation: 2,
+                    infoContent: null,                    
+                    priceContent: null,
+                    price:"",
+                    showInfo:false
+                }],
+                location: {
+                   lat: parseFloat(position.coords.latitude),
+                    lng: parseFloat(position.coords.longitude) 
+                }
+        })
+        
+      })
     }
     
     componentWillMount(){
         console.log("d")
-        this.state.markers = [
+        /*this.state.markers = [
                 {
                     position:{
                         lat: 40.7575285,
@@ -57,6 +114,9 @@ export default class AddressPage extends React.Component{
                     defaultAnimation: 2,
                     infoContent: (
                         <div> <h3> Hello </h3> </div>
+                    ),                    
+                    priceContent: (
+                        <div> <h3> NA </h3> </div>
                     ),
                     price:"",
                     showInfo:false
@@ -65,7 +125,35 @@ export default class AddressPage extends React.Component{
         this.state.location = {
                 lat:40.7575285,
                 lng:-73.9884469
-            }
+            }*/
+        
+        /*geolocation.getCurrentPosition((position) => {
+      if (this.isUnmounted) {
+        return
+      }
+    console.log("lat",position.coords.latitude)
+        this.setState({ 
+                markers:
+                [{
+                    position:{
+                        lat: parseFloat(position.coords.latitude),
+                        lng: parseFloat(position.coords.longitude)
+                    },
+                    defaultAnimation: 2,
+                    infoContent: null,                    
+                    priceContent: null,
+                    price:"",
+                    showInfo:false
+                }],
+                location: {
+                   lat: parseFloat(position.coords.latitude),
+                    lng: parseFloat(position.coords.longitude) 
+                }
+        })
+        
+      })
+*/        
+        
         console.log("fff",this.state.markers)
     }
     
@@ -136,9 +224,20 @@ export default class AddressPage extends React.Component{
         var tempMarkers =[]
         var location
         var renderComponent =''
+        var priceContentStyle = {
+            color:'white',
+            fontWeight:'bold',
+            backgroundColor:'green',
+            fontSize:'9px'
+        }
+        var buttonDivStyle = {
+            textAlign:'center',
+            paddingBottom:'10px',
+            //display:'inline-block'
+        }        
 
         console.log("fuelStationDet", this.props.fuelStationDet)
-        const {fuelStationDet,fetched,fetching,markerClicked} = this.props
+        const {fuelStationDet,fetched,fetching,markerClicked,firstLoad} = this.props
         console.log("fetched",fetched)
         console.log("fetching",fetching)
         console.log("markercl",markerClicked)
@@ -158,6 +257,9 @@ export default class AddressPage extends React.Component{
                             <h5 style ={{color:'red'},{fontWeight:'bold'}}> {station.station} - {station.address} {station.city} {station.region} </h5>
                             <strong> ${station.reg_price}</strong>
                         </div>
+                    ),
+                    priceContent: (
+                        <div style={priceContentStyle}> <strong> {station.reg_price} </strong> </div>
                     ),
                     price:station.reg_price,
                     showInfo:false
@@ -188,7 +290,7 @@ export default class AddressPage extends React.Component{
             console.log("fetchingggggg")
             renderComponent = <div className="tabloader" > </div>
         }
-        
+        console.log("fir", firstLoad)
         if (markerClicked) {
             renderComponent = <div style = {mapDivStyle}>
                             <Map 
@@ -196,6 +298,7 @@ export default class AddressPage extends React.Component{
                             markers={this.state.markers} 
                             handleMarkerClick={this.handleMarkerClick.bind(this)}
                             handleMarkerClose={this.handleMarkerClose.bind(this)}
+                            firstLoad={firstLoad}
                             />        
                           </div>            
 
@@ -215,9 +318,16 @@ export default class AddressPage extends React.Component{
                             placeholder="Enter zipcode to find fuel data"
                             required/>
                         </FormGroup>
-                        <Button type="submit" bsStyle="success">
-                          Submit
-                        </Button>                
+                        <div style={buttonDivStyle}>                            
+                            <ButtonToolbar>
+                            <Button type="submit" bsStyle="success" bsSize="small">
+                              Submit
+                            </Button>  
+                            <Button type="button" bsStyle="success" bsSize="small" onClick={this.executeCurrentLoc.bind(this)}>
+                             <i className="fa fa-location-arrow" aria-hidden="true"></i> Use My Location
+                            </Button>  
+                            </ButtonToolbar>
+                        </div>
                       </form>
                   </div>
                   <div></div>

@@ -2,7 +2,7 @@ import React from 'react'
 import styles from '../styles/style.css'
 import ReactDOM from 'react-dom'
 import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
-import {FormGroup,ControlLabel,FormControl,Panel,Glyphicon,Button,Well,Col,Row,Popover,Form} from 'react-bootstrap'
+import {FormGroup,ControlLabel,FormControl,Panel,Glyphicon,Button,Well,Col,Row,Popover,Form,Glyphicons} from 'react-bootstrap'
 
  
     const icon = {
@@ -15,6 +15,16 @@ import {FormGroup,ControlLabel,FormControl,Panel,Glyphicon,Button,Well,Col,Row,P
         color:'blue',
         fontWeight:'bold'
     }
+    var markerIcon = {
+  url: 'http://image.flaticon.com/icons/svg/252/252025.svg',
+  //url: '../images/gasoline.png',
+  scaledSize: new google.maps.Size(75, 75),
+  origin: new google.maps.Point(0, 0),  
+  anchor: new google.maps.Point(32,65),
+  labelOrigin: new google.maps.Point(36,30)            
+}
+ 
+    var iconimage = "../images/gas_station.png"
     var iconurl = 'https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png'
        const GettingStartedGoogleMap = withGoogleMap(props => (
                                         <GoogleMap
@@ -22,12 +32,18 @@ import {FormGroup,ControlLabel,FormControl,Panel,Glyphicon,Button,Well,Col,Row,P
                                             defaultCenter={props.center}
                                             options={{streetViewControl:true,mapTypeControl:true}}>
                                                 {props.markers.map((venue,i) => {
-
+                                                        var labeldet = {
+                                                                    text: '$'+venue.price,
+                                                                    color: "dark green",
+                                                                    fontSize: "11px",
+                                                                    fontWeight: "bold"
+                                                                }
                                                         return <Marker 
                                                                 key={i} 
                                                                 {...venue}
-                                                                //icon={icon}
-                                                                label= {venue.price}
+                                                                icon={markerIcon}
+                                                                //label= {venue.price}
+                                                                label= {labeldet}
                                                                 onClick={() => props.onMarkerClick(venue)}                    
                                                                 onMouseOver={() => props.onMarkerClick(venue)}
                                                                 onMouseOut={() =>props.onMarkerClose(venue) }
@@ -36,14 +52,16 @@ import {FormGroup,ControlLabel,FormControl,Panel,Glyphicon,Button,Well,Col,Row,P
                                                                         <InfoWindow style={infoWindowStyle} onCloseClick= {() =>props.onMarkerClose(venue) }>
                                                                          {venue.infoContent}
                                                                         </InfoWindow>
-                                                                    )}
+                                                                    )}                                                                                                                       
+
                                                                 </Marker>
                                                     })
                                                 }
                                         </GoogleMap>
                                   ))
-
-
+                                  
+                                  
+ 
 export default class Map extends React.Component{
     constructor(){
         super()
@@ -59,8 +77,10 @@ export default class Map extends React.Component{
             height:'100%',
             width:'100%'
         }
+        var mapContent
         console.log(this.props.markers)
         console.log(this.props.location)
+        console.log("firstload",this.props.firstLoad)
         
         
         
@@ -69,15 +89,17 @@ export default class Map extends React.Component{
         const mapElement = <div style = {mapStyle}>
                            </div>
 
+       
+        
         return (
             <GettingStartedGoogleMap
-                containerElement={mapContainer}
-                mapElement={mapElement}
-                center={this.props.location}
-                markers={this.props.markers}
-                onMarkerClick= {this.props.handleMarkerClick}
-                onMarkerClose={this.props.handleMarkerClose}            
-            />
+                    containerElement={mapContainer}
+                    mapElement={mapElement}
+                    center={this.props.location}
+                    markers={this.props.markers}
+                    onMarkerClick= {this.props.handleMarkerClick}
+                    onMarkerClose={this.props.handleMarkerClose}            
+                />
             )
     }    
 }

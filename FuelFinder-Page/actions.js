@@ -4,7 +4,7 @@ export const fetchFuelDetails = (zipCode) => {
     var lat
     var lng
     var latlngLocation
-
+    
     return (dispatch) => {
         dispatch({type:"FETCHING_FUEL_DATA",payload:''})
         geocoder.geocode({address:zipCode},
@@ -17,7 +17,7 @@ export const fetchFuelDetails = (zipCode) => {
                  latitude:lat,
                  longitude:lng
              }
-
+             
              return fetch(`//api.mygasfeed.com/stations/radius/${lat}/${lng}/5/reg/distance/5pf2pf32o3.json`
                          )
                  .then(resp => {console.log("resp", resp)
@@ -25,8 +25,8 @@ export const fetchFuelDetails = (zipCode) => {
                  .then(json => {dispatch(returnGeoInfo(json,lat,lng))})
                  .catch(err => { console.log ("err",err)
                                 dispatch({type:"FETCH_MESSAGE_ERROR",error:err})})
-
-
+             
+             
         } else {
             console.log("error in Google geocode :", status)
         }
@@ -36,13 +36,30 @@ export const fetchFuelDetails = (zipCode) => {
 
 }
 
+
+export const fetchFuelDetailsWithLatLng = (lat,lng) => {
+    
+    
+    return (dispatch) => {
+        dispatch({type:"FETCHING_FUEL_DATA",payload:''})
+             return fetch(`//api.mygasfeed.com/stations/radius/${lat}/${lng}/5/reg/distance/5pf2pf32o3.json`
+                         )
+                 .then(resp => {console.log("resp", resp)
+                                return resp.json()})
+                 .then(json => {dispatch(returnGeoInfo(json,lat,lng))})
+                 .catch(err => { console.log ("err",err)
+                                dispatch({type:"FETCH_MESSAGE_ERROR",error:err})})
+        
+}
+
+}
 export function handleMarkerClick(){
     return (dispatch) => {
         dispatch({type:"MARKER_CLICKED",payload:''})
     }
 }
 
-function returnGeoInfo(fuelDet,lat,lng) {
+function returnGeoInfo(fuelDet,lat,lng) {  
      return {
     type: "FETCH_GEOINFO_SUCCESS",
     payload:{
@@ -50,5 +67,5 @@ function returnGeoInfo(fuelDet,lat,lng) {
         lat:lat,
         lng:lng
     }
-  }
+  } 
 }
