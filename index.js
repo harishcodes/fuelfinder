@@ -23275,7 +23275,7 @@
 	                    longitude: lng
 	                };
 
-	                return fetch("//api.mygasfeed.com/stations/radius/" + lat + "/" + lng + "/5/reg/distance/5pf2pf32o3.json").then(function (resp) {
+	                return fetch("http://api.mygasfeed.com/stations/radius/" + lat + "/" + lng + "/5/reg/distance/5pf2pf32o3.json").then(function (resp) {
 	                    console.log("resp", resp);
 	                    return resp.json();
 	                }).then(function (json) {
