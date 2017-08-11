@@ -13,7 +13,9 @@ const mapStateToProps = (state) => {
         markerClicked:state.Fuelreducer.markerClicked,
         lat:state.Fuelreducer.lat,
         lng:state.Fuelreducer.lng,
-        firstLoad:state.Fuelreducer.firstLoad
+        firstLoad:state.Fuelreducer.firstLoad,
+        error:state.Fuelreducer.error,
+        currentLocError:state.Fuelreducer.currentLocError
     })
 }
 
