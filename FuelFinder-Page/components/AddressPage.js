@@ -3,7 +3,7 @@ import styles from '../styles/style.css'
 import stylesSpinner1 from '../styles/cssspinner.css'
 import ReactDOM from 'react-dom'
 import Map from './Map.js'
-import {FormGroup,ControlLabel,FormControl,Panel,Glyphicon,Button,Well,Col,Row,Popover,Form,ButtonToolbar} from 'react-bootstrap'
+import {FormGroup,ControlLabel,FormControl,Panel,Glyphicon,Button,Well,Col,Row,Popover,Form,ButtonToolbar,Alert} from 'react-bootstrap'
 
 const geolocation = (
   //canUseDOM && navigator.geolocation ?
@@ -237,7 +237,7 @@ export default class AddressPage extends React.Component{
         }        
 
         console.log("fuelStationDet", this.props.fuelStationDet)
-        const {fuelStationDet,fetched,fetching,markerClicked,firstLoad} = this.props
+        const {fuelStationDet,fetched,fetching,markerClicked,firstLoad,error,currentLocError} = this.props
         console.log("fetched",fetched)
         console.log("fetching",fetching)
         console.log("markercl",markerClicked)
@@ -303,7 +303,30 @@ export default class AddressPage extends React.Component{
                           </div>            
 
         }
+        
+        if (error){
+            renderComponent = <Alert bsStyle="danger">
+                                    <h3><strong>Oh Snap! You got an eror</strong></h3>
+                                    <h4> <u> Step 1: Try This First </u> </h4>
+                                    <p> You will see a Shield icon <i className="fa fa-shield" aria-hidden="true"></i> near to the 
+                                        favourte star in Chrome's address bar. Click on that and click "load unsafe scripts"
+                                    </p>
+                                    <p>  </p><p>  </p>
+                                    <h4> <u> Step 2: Try This if step 1 is already done. </u> </h4>
+                                    <p> Refresh the page and try it again. If it again fails. Please reach me @ harishramkumar1@gmail.com with the error
+                                    </p>
+                                </Alert>
+        }
 
+        if (currentLocError){
+            renderComponent = <Alert bsStyle="danger">
+                                    <h3><strong>You have not allowed the app to know your location !! Please follow the below steps to allow it</strong></h3>
+                                    <p> You will see a GPS icon near to the 
+                                        favourte star in Chrome's address bar with a red cross mark. Click on that and click "Manage location settings". On the next window delete "harishcodes.github.io/fuelfinder"
+                                        from the "Block" section. Now reload the page and chrome will ask you to allow to track your location and you can click allow.
+                                    </p>
+                                </Alert>
+        }
                 
         
         return (

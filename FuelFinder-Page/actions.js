@@ -1,4 +1,4 @@
-
+import "isomorphic-fetch"
 export const fetchFuelDetails = (zipCode) => {
     var geocoder = new google.maps.Geocoder()
     var lat
@@ -18,7 +18,7 @@ export const fetchFuelDetails = (zipCode) => {
                  longitude:lng
              }
              
-             return fetch(`//api.mygasfeed.com/stations/radius/${lat}/${lng}/5/reg/distance/5pf2pf32o3.json`
+             return fetch(`http://api.mygasfeed.com/stations/radius/${lat}/${lng}/5/reg/distance/5pf2pf32o3.json`
                          )
                  .then(resp => {console.log("resp", resp)
                                 return resp.json()})
@@ -42,14 +42,17 @@ export const fetchFuelDetailsWithLatLng = (lat,lng) => {
     
     return (dispatch) => {
         dispatch({type:"FETCHING_FUEL_DATA",payload:''})
-             return fetch(`//api.mygasfeed.com/stations/radius/${lat}/${lng}/5/reg/distance/5pf2pf32o3.json`
+             if (lat == undefined && lng == undefined){
+                 dispatch({type:"CURRENT_LOC_ERROR",error:''})
+             } else {
+             return fetch(`http://api.mygasfeed.com/stations/radius/${lat}/${lng}/5/reg/distance/5pf2pf32o3.json`
                          )
                  .then(resp => {console.log("resp", resp)
                                 return resp.json()})
                  .then(json => {dispatch(returnGeoInfo(json,lat,lng))})
                  .catch(err => { console.log ("err",err)
                                 dispatch({type:"FETCH_MESSAGE_ERROR",error:err})})
-        
+            }
 }
 
 }
