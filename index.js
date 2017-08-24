@@ -617,7 +617,7 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 * @providesModule reactProdInvariant
-	 *
+	 * 
 	 */
 	'use strict';
 
@@ -1176,7 +1176,7 @@
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
-	 *
+	 * 
 	 */
 
 	function makeEmptyFunction(arg) {
@@ -1419,7 +1419,7 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 * @providesModule getIteratorFn
-	 *
+	 * 
 	 */
 
 	'use strict';
@@ -1465,7 +1465,7 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 * @providesModule KeyEscapeUtils
-	 *
+	 * 
 	 */
 
 	'use strict';
@@ -6363,7 +6363,7 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 * @providesModule accumulateInto
-	 *
+	 * 
 	 */
 
 	'use strict';
@@ -6426,7 +6426,7 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 * @providesModule forEachAccumulated
-	 *
+	 * 
 	 */
 
 	'use strict';
@@ -7693,7 +7693,7 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 * @providesModule ReactFeatureFlags
-	 *
+	 * 
 	 */
 
 	'use strict';
@@ -8959,7 +8959,7 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 * @providesModule isTextInputElement
-	 *
+	 * 
 	 */
 
 	'use strict';
@@ -12422,7 +12422,7 @@
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
-	 *
+	 * 
 	 * @typechecks static-only
 	 */
 
@@ -15938,7 +15938,7 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 * @providesModule ReactNodeTypes
-	 *
+	 * 
 	 */
 
 	'use strict';
@@ -15983,7 +15983,7 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 * @typechecks
-	 *
+	 * 
 	 */
 
 	/*eslint-disable no-self-compare */
@@ -16218,7 +16218,7 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 * @providesModule flattenChildren
-	 *
+	 * 
 	 */
 
 	'use strict';
@@ -16395,7 +16395,7 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 * @providesModule ReactServerUpdateQueue
-	 *
+	 * 
 	 */
 
 	'use strict';
@@ -18550,7 +18550,7 @@
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
-	 *
+	 * 
 	 */
 
 	var isTextNode = __webpack_require__(146);
@@ -21064,7 +21064,7 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 * @providesModule adler32
-	 *
+	 * 
 	 */
 
 	'use strict';
@@ -23988,7 +23988,7 @@
 	                        defaultAnimation: 2,
 	                        infoContent: (
 	                            <div> <h3> Hello </h3> </div>
-	                        ),
+	                        ),                    
 	                        priceContent: (
 	                            <div> <h3> NA </h3> </div>
 	                        ),
@@ -24006,7 +24006,7 @@
 	            return
 	            }
 	            console.log("lat",position.coords.latitude)
-	            this.setState({
+	            this.setState({ 
 	                    markers:
 	                    [{
 	                        position:{
@@ -24014,17 +24014,17 @@
 	                            lng: parseFloat(position.coords.longitude)
 	                        },
 	                        defaultAnimation: 2,
-	                        infoContent: null,
+	                        infoContent: null,                    
 	                        priceContent: null,
 	                        price:"",
 	                        showInfo:false
 	                    }],
 	                    location: {
 	                       lat: parseFloat(position.coords.latitude),
-	                        lng: parseFloat(position.coords.longitude)
+	                        lng: parseFloat(position.coords.longitude) 
 	                    }
 	            })
-
+	            
 	            })
 	            */
 
@@ -24131,7 +24131,7 @@
 	            if (fetched) {
 	                console.log("lat lng val :", fuelStationDet);
 	                var temp = fuelStationDet.stations.map(function (station) {
-	                    //var infDet =
+	                    //var infDet = 
 	                    tempMarkers.push({
 	                        position: {
 	                            lat: parseFloat(station.lat),
@@ -24401,7 +24401,7 @@
 	exports.push([module.id, "@import url(//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css);", ""]);
 
 	// module
-	exports.push([module.id, ".navbar-default {\r\n    background-color: #151719;\r\n    border-color: #282828;\r\n}\r\n\r\n.navbar-default .navbar-brand {\r\n    color: #fff;\r\n}\r\n\r\n.navbar-default .navbar-brand:hover {\r\n    color: #fff;\r\n}\r\n.navbar-default .navbar-nav>li>a {\r\n    color: #fff;\r\n}\r\n\r\n.dropdown-menu  {\r\n    background-color: #151719;\r\n    color:#fff;\r\n    border-color: #ccc;\r\n}\r\n\r\n\r\n.dropdown-menu>li {\r\n    border-color: #fff;\r\n}\r\n\r\n.dropdown-menu>li>a {\r\n    color:#fff;    \r\n}\r\n\r\n\r\n.dropdown:hover .dropdown-menu {\r\n    display: block;\r\n}\r\n\r\n.MessageMaint-Page-body {\r\n    background: url(/fuelfinder/images/background.jpg) no-repeat center center fixed; \r\n  -webkit-background-size: cover;\r\n  -moz-background-size: cover;\r\n  -o-background-size: cover;\r\n  background-size: cover;\r\n}\r\nul.nav a:hover { \r\n    background-color: #f85d13 !important; \r\n    color: #fff;     \r\n}\r\nnav>li>a:hover {\r\n    color: #fff;    \r\n}\r\n.panel-default>.panel-heading {\r\n    color: #fff;\r\n    background-color: black;\r\n}\r\n\r\n.PanelStyle{\r\n    padding: 5px;\r\n    background-color: black;\r\n}\r\n.TabStyle{    \r\n    background-color: black;\r\n}\r\n.WellStyle{\r\n    background-color: black;\r\n    color:#fff;\r\n}\r\n.TabContentStyle{\r\n    padding:10px;\r\n    background-color:black;\r\n}\r\n.TableStyle>thead>tr>th{\r\n    color: #fff;\r\n    font-size: 16px;\r\n    text-align: center;\r\n}\r\n.TableStyle>tbody>tr{\r\n    background-color: black;\r\n    color: #fff;\r\n    font-size: 15px;\r\n    text-align:center;\r\n    vertical-align: middle;    \r\n}\r\n.blink_me {\r\n  animation: blinker 0.5s linear 4;\r\n}\r\n\r\n@keyframes blinker {  \r\n  50% { opacity: 0;background-color:white; }\r\n}\r\n\r\n\r\n/*StartUp Page Styling */\r\n.panel-default>.panel-heading{\r\n        background-color: black;\r\n    font-weight: bold;\r\n    text-align: center;\r\n}\r\n.element::-webkit-input-placeholder {\r\n    color: blue;\r\n    font-weight: bold;\r\n}\r\n.clickButtonStyle{\r\n    text-align: center;\r\n}\r\n\r\n.rowStyle{\r\n    margin-bottom: 10px;\r\n}", ""]);
+	exports.push([module.id, ".navbar-default {\r\n    background-color: #151719;\r\n    border-color: #282828;\r\n}\r\n\r\n.navbar-default .navbar-brand {\r\n    color: #fff;\r\n}\r\n\r\n.navbar-default .navbar-brand:hover {\r\n    color: #fff;\r\n}\r\n.navbar-default .navbar-nav>li>a {\r\n    color: #fff;\r\n}\r\n\r\n.dropdown-menu  {\r\n    background-color: #151719;\r\n    color:#fff;\r\n    border-color: #ccc;\r\n}\r\n\r\n\r\n.dropdown-menu>li {\r\n    border-color: #fff;\r\n}\r\n\r\n.dropdown-menu>li>a {\r\n    color:#fff;    \r\n}\r\n\r\n\r\n.dropdown:hover .dropdown-menu {\r\n    display: block;\r\n}\r\n\r\n.MessageMaint-Page-body {\r\n    background: url(/images/background.jpg) no-repeat center center fixed; \r\n  -webkit-background-size: cover;\r\n  -moz-background-size: cover;\r\n  -o-background-size: cover;\r\n  background-size: cover;\r\n}\r\nul.nav a:hover { \r\n    background-color: #f85d13 !important; \r\n    color: #fff;     \r\n}\r\nnav>li>a:hover {\r\n    color: #fff;    \r\n}\r\n.panel-default>.panel-heading {\r\n    color: #fff;\r\n    background-color: black;\r\n}\r\n\r\n.PanelStyle{\r\n    padding: 5px;\r\n    background-color: black;\r\n}\r\n.TabStyle{    \r\n    background-color: black;\r\n}\r\n.WellStyle{\r\n    background-color: black;\r\n    color:#fff;\r\n}\r\n.TabContentStyle{\r\n    padding:10px;\r\n    background-color:black;\r\n}\r\n.TableStyle>thead>tr>th{\r\n    color: #fff;\r\n    font-size: 16px;\r\n    text-align: center;\r\n}\r\n.TableStyle>tbody>tr{\r\n    background-color: black;\r\n    color: #fff;\r\n    font-size: 15px;\r\n    text-align:center;\r\n    vertical-align: middle;    \r\n}\r\n.blink_me {\r\n  animation: blinker 0.5s linear 4;\r\n}\r\n\r\n@keyframes blinker {  \r\n  50% { opacity: 0;background-color:white; }\r\n}\r\n\r\n\r\n/*StartUp Page Styling */\r\n.panel-default>.panel-heading{\r\n        background-color: black;\r\n    font-weight: bold;\r\n    text-align: center;\r\n}\r\n.element::-webkit-input-placeholder {\r\n    color: blue;\r\n    font-weight: bold;\r\n}\r\n.clickButtonStyle{\r\n    text-align: center;\r\n}\r\n\r\n.rowStyle{\r\n    margin-bottom: 10px;\r\n}", ""]);
 
 	// exports
 
@@ -25435,7 +25435,7 @@
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
-	 *
+	 * 
 	 */
 
 	function makeEmptyFunction(arg) {
@@ -26244,7 +26244,7 @@
 	$export.B = 16;  // bind
 	$export.W = 32;  // wrap
 	$export.U = 64;  // safe
-	$export.R = 128; // real proto method for `library`
+	$export.R = 128; // real proto method for `library` 
 	module.exports = $export;
 
 /***/ },
@@ -27560,7 +27560,7 @@
 /* 302 */
 /***/ function(module, exports) {
 
-
+	
 
 /***/ },
 /* 303 */
@@ -30824,7 +30824,7 @@
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
-	 *
+	 * 
 	 */
 
 	function makeEmptyFunction(arg) {
