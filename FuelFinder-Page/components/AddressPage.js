@@ -2,8 +2,9 @@ import React from 'react'
 import styles from '../styles/style.css'
 import stylesSpinner1 from '../styles/cssspinner.css'
 import ReactDOM from 'react-dom'
+import ReactScrollableList from 'react-scrollable-list'
 import Map from './Map.js'
-import {FormGroup,ControlLabel,FormControl,Panel,Glyphicon,Button,Well,Col,Row,Popover,Form,ButtonToolbar,Alert} from 'react-bootstrap'
+import {FormGroup,InputGroup,Tooltip,OverlayTrigger,ControlLabel,FormControl,Panel,Glyphicon,Button,Well,Col,Row,Popover,Form,ButtonToolbar,Alert} from 'react-bootstrap'
 
 const geolocation = (
   //canUseDOM && navigator.geolocation ?
@@ -16,6 +17,9 @@ const geolocation = (
   })
 )
 
+const tooltip = (
+  <Tooltip id="tooltip"><strong>Use Current Location</strong> </Tooltip>
+)
 
 export default class AddressPage extends React.Component{
     constructor(){
@@ -204,6 +208,16 @@ export default class AddressPage extends React.Component{
     
     render(){
         
+        //LIST
+         var listItems = []
+        for (let i = 0; i < 10; i++) {
+            listItems.push({ id: i, content: i })
+        }
+        
+        var listStyle={
+            backgroundColor:'white',
+            color:'orange'
+        }
         var markers =[]
         var location
         
@@ -334,27 +348,50 @@ export default class AddressPage extends React.Component{
                 <div style = {divStyle}>
                       <form style ={loginFormStyle} onSubmit={this.handleSubmit.bind(this)} >
                         <FormGroup
-                          controlId="formBasicText">
-                          <FormControl
-                            type="text"
-                            ref="zipCodeField"
-                            placeholder="Enter zipcode to find fuel data"
-                            required/>
+                            controlId="formBasicText">
+                            <InputGroup>
+                                  <InputGroup.Button>
+                                    <OverlayTrigger placement="left" overlay={tooltip}>
+                                        <Button type="button" bsStyle="success"  onClick={this.executeCurrentLoc.bind(this)}>
+                                            <i className="fa fa-location-arrow" aria-hidden="true"></i>
+                                        </Button>
+                                    </OverlayTrigger>
+                                  </InputGroup.Button>
+                                  <FormControl
+                                        type="text"
+                                        ref="zipCodeField"
+                                        placeholder="Enter zipcode to find fuel data"
+                                        required/>
+                            </InputGroup>
+                                        
                         </FormGroup>
                         <div style={buttonDivStyle}>                            
-                            <ButtonToolbar>
+                            <ButtonToolbar>                            
                             <Button type="submit" bsStyle="success" bsSize="small">
                               Submit
                             </Button>  
-                            <Button type="button" bsStyle="success" bsSize="small" onClick={this.executeCurrentLoc.bind(this)}>
+                            {/*<Button type="button" bsStyle="success" bsSize="small" onClick={this.executeCurrentLoc.bind(this)}>
                              <i className="fa fa-location-arrow" aria-hidden="true"></i> Use My Location
-                            </Button>  
+                            </Button> */ }
                             </ButtonToolbar>
                         </div>
                       </form>
                   </div>
                   <div></div>
-                  {renderComponent}
+               { /*<table style={{width:'100%'}}>
+                <td style={{width:'20%'}}>
+                    <ReactScrollableList
+                      listItems={listItems}
+                      heightOfItem={30}
+                      maxItemsToRender={50}
+                      style={listStyle}
+                    />
+                </td>
+                <td style={{width:'80%'}}>
+                      {renderComponent}
+                </td>
+                </table>   */}                         
+                 {renderComponent}
             </div>
             )
         
